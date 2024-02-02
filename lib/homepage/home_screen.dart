@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zignuts_assignment/data/user.dart';
+import 'package:zignuts_assignment/homepage/chart.dart';
 
 class HomeScreen extends StatelessWidget {
   final User user;
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
       return 0.0;
     }
   }
+   
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,8 @@ class HomeScreen extends StatelessWidget {
               bmi.toStringAsFixed(2),
               style:  TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             ),
+            const SizedBox(height: 10),
+            BarGraph(),
           ],
         ),
       ),
