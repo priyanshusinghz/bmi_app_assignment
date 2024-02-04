@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zignuts_assignment/data/user.dart';
 import 'package:zignuts_assignment/screens/home/chart.dart';
+import 'package:zignuts_assignment/utils/constants.dart';
 
 class HomeScreen extends StatelessWidget {
   final User user;
@@ -20,6 +21,7 @@ class HomeScreen extends StatelessWidget {
     double bmi = calculateBMI();
 
     return Scaffold(
+      backgroundColor: myCustomColor,
       drawer: Drawer(
         child: ListView(
           children: <Widget>[

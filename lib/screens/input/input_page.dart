@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zignuts_assignment/controllers/controllers.dart';
 import 'package:zignuts_assignment/data/user.dart';
+import 'package:zignuts_assignment/utils/constants.dart';
 import 'package:zignuts_assignment/widgets/reusable_widgets.dart';
-
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -23,6 +23,7 @@ class _InputPageState extends State<InputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: myCustomColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -47,8 +48,10 @@ class _InputPageState extends State<InputPage> {
             onPressed: () {
               String name = inputControllers.nameController.text;
               String gender = inputControllers.genderController.text;
-              double height = double.parse(inputControllers.heightController.text);
-              double weight = double.parse(inputControllers.weightController.text);
+              double height =
+                  double.parse(inputControllers.heightController.text);
+              double weight =
+                  double.parse(inputControllers.weightController.text);
 
               User user = User(
                 name: name,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zignuts_assignment/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(Duration(seconds: 40), () {
       Navigator.pushNamed(context, '/input');
     });
   }
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[200],
+      backgroundColor: myCustomColor,
       body: Center(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -31,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               image: DecorationImage(
-                image: AssetImage('assets/images/logo.jpg'),
+                image: AssetImage('assets/images/logo.png'),
               ),
             ),
           ),
