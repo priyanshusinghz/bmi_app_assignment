@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class myDrawer extends StatelessWidget {
+
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +17,8 @@ class myDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CircleAvatar(
+                  backgroundImage: AssetImage("assets/images/pic.jpg"),
                   radius: 40,
-                  child: ClipOval(
-                    child: Image(image: AssetImage("assets/images/pic.jpg")),
-                  ),
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -39,7 +39,6 @@ class myDrawer extends StatelessWidget {
               Navigator.pushNamed(context, '/history');
             },
           ),
-          // Add more items as needed
         ],
       ),
     );

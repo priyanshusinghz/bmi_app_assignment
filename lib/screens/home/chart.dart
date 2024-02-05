@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter_new/flutter.dart' as charts;
-import 'package:intl/intl.dart';
-
 class BarGraphWidget extends StatelessWidget {
   final List<Map<String, String>> historyData;
 
-  const BarGraphWidget({Key? key, required this.historyData}) : super(key: key);
+  const BarGraphWidget(  {Key? key, required this.historyData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +16,14 @@ class BarGraphWidget extends StatelessWidget {
                   double.parse(data['weight']!),
                 ))
             .toList(),
-        domainFn: (OrdinalSales sales, _) =>
-            DateFormat.yMMMd().format(DateTime.parse(sales.date)),
+        domainFn: (OrdinalSales sales, _) => sales.date,
         measureFn: (OrdinalSales sales, _) => sales.weight,
       )
     ];
+    
 
     return SizedBox(
-      height: 200, 
+      height: 200,
       child: charts.BarChart(
         seriesList,
         animate: true,

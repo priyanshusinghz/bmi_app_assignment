@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:zignuts_assignment/data/database_helper.dart';
 import 'package:zignuts_assignment/screens/home/chart.dart';
+import 'history_list.dart';
 
 class History extends StatefulWidget {
+  const History({super.key});
+
   @override
-  _HistoryState createState() => _HistoryState();
+  State<History> createState() => _HistoryState();
 }
 
 class _HistoryState extends State<History> {
-  List<Map<String, String>> historyData = [];
+   List<Map<String, String>> historyData = [];
 
   @override
   void initState() {
@@ -18,15 +21,14 @@ class _HistoryState extends State<History> {
   }
 
   Future<void> _fetchHistoryData() async {
-  List<Map<String, dynamic>> data = await DatabaseHelper().getHistoryData();
-  setState(() {
-    historyData = List<Map<String, String>>.from(data.map((entry) => {
-          'weight': entry['weight'].toString(),
-          'date': entry['date'].toString(),
-        }));
-  });
-}
-
+    List<Map<String, dynamic>> data = await DatabaseHelper().getHistoryData();
+    setState(() {
+      historyData = List<Map<String, String>>.from(data.map((entry) => {
+            'weight': entry['weight'].toString(),
+            'date': entry['date'].toString(),
+          }));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +38,8 @@ class _HistoryState extends State<History> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: historyData.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('Weight: ${historyData[index]['weight']}'),
-                  subtitle: Text('Date: ${historyData[index]['date']}'),
-                  onTap: () {
-                    _editEntry(index);
-                  },
-                );
-              },
-            ),
-          ),
+          // Use the HistoryList widget here
+          HistoryList(historyData: historyData, onEdit: _editEntry),
           BarGraphWidget(
             historyData: historyData,
           ),
@@ -65,6 +55,11 @@ class _HistoryState extends State<History> {
         ],
       ),
     );
+  }
+
+  String _formatDate(String dateString) {
+    final DateTime date = DateTime.parse(dateString);
+    return DateFormat('MMMM dd, yyyy').format(date);
   }
 
   void _editEntry(int index) {
@@ -89,7 +84,7 @@ class _HistoryState extends State<History> {
               InkWell(
                 child: ListTile(
                   title: Text(
-                    'Date: ${DateFormat.yMd().format(updatedDate)}',
+                    'Date: ${_formatDate(updatedDate.toIso8601String())}',
                   ),
                   trailing: const Icon(Icons.date_range),
                 ),
@@ -144,7 +139,7 @@ class _HistoryState extends State<History> {
               InkWell(
                 child: ListTile(
                   title: Text(
-                    'Date: ${DateFormat.yMd().format(newDate)}',
+                    'Date: ${_formatDate(newDate.toIso8601String())}',
                   ),
                   trailing: const Icon(Icons.date_range),
                 ),
@@ -160,15 +155,10 @@ class _HistoryState extends State<History> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(context);
-                setState(() {
-                  historyData.add({
-                    'weight': newWeight,
-                    'date': DateFormat('yyyy-MM-dd').format(newDate),
-                  });
-                });
-                _saveNewEntry();
+                _saveNewEntry(newWeight, newDate);
+                _fetchHistoryData(); // Trigger a refresh
               },
               child: const Text('Add'),
             ),
@@ -193,15 +183,26 @@ class _HistoryState extends State<History> {
     }
   }
 
-  void _saveEditedEntry(int index) {
-    // Implement saving the edited data to the database
-    // For example, update the corresponding entry in the 'users' table
-    // using DatabaseHelper().updateUser method
+  void _saveNewEntry(String newWeight, DateTime newDate) async {
+    await DatabaseHelper().insertUser(User(
+      name: 'Dummy',
+      gender: 'Male',
+      height: 170,
+      weight: int.parse(newWeight),
+      date: newDate,
+    ));
   }
 
-  void _saveNewEntry() {
-    // Implement saving the new entry data to the database
-    // For example, insert a new entry into the 'users' table
-    // using DatabaseHelper().insertUser method
+  void _saveEditedEntry(int index) async {
+    List<User> users = await DatabaseHelper().getUsers();
+
+    if (index >= 0 && index < users.length) {
+      User existingUser = users[index];
+
+      existingUser.weight = int.parse(historyData[index]['weight']!);
+      existingUser.date = DateTime.parse(historyData[index]['date']!);
+
+      await DatabaseHelper().insertUser(existingUser);
+    }
   }
 }

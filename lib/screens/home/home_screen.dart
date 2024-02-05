@@ -4,6 +4,8 @@ import 'package:zignuts_assignment/screens/home/drawer.dart';
 import 'package:zignuts_assignment/utils/constants.dart';
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   double calculateBMI(User user) {
     if (user.height > 0 && user.weight > 0) {
       return user.weight / ((user.height / 100) * (user.height / 100));
@@ -29,7 +31,7 @@ class HomeScreen extends StatelessWidget {
 
           return Scaffold(
             backgroundColor: myCustomColor,
-            drawer: myDrawer(),
+            drawer: const MyDrawer(),
             appBar: AppBar(
               title: Title(color: Colors.greenAccent, child: const Text("BMI")),
             ),

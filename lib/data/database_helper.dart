@@ -8,8 +8,8 @@ class User {
   final String name;
   final String gender;
   final int height;
-  final int weight;
-  final DateTime date;
+  late final int weight;
+  late final DateTime date;
 
   User({
     this.id, 

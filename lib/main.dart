@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zignuts_assignment/data/database_helper.dart';
 import 'package:zignuts_assignment/screens/history/history.dart';
 import 'package:zignuts_assignment/screens/home/home_screen.dart';
 import 'package:zignuts_assignment/screens/input/input_page.dart';
@@ -13,7 +12,6 @@ void main() async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
- 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,10 +19,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/input': (context) => InputPage(),
-        '/history': (context) => History(),
-        '/home': (context) => HomeScreen(
-              ),
+        '/input': (context) => const InputPage(),
+        '/history': (context) => const History(),
+        '/home': (context) => const HomeScreen(),
       },
     );
   }
