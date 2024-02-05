@@ -37,7 +37,7 @@ class BarGraphWidget extends StatelessWidget {
   }
 }
 
-// Model class for data points
+
 class OrdinalSales {
   final String date;
   final double weight;

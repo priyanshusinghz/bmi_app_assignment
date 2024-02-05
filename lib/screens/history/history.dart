@@ -38,7 +38,7 @@ class _HistoryState extends State<History> {
       ),
       body: Column(
         children: [
-          // Use the HistoryList widget here
+          
           HistoryList(historyData: historyData, onEdit: _editEntry),
           BarGraphWidget(
             historyData: historyData,
@@ -139,7 +139,8 @@ class _HistoryState extends State<History> {
               InkWell(
                 child: ListTile(
                   title: Text(
-                    'Date: ${_formatDate(newDate.toIso8601String())}',
+                    'Date: ${DateFormat('MMMM dd, yyyy').format(newDate)}',
+
                   ),
                   trailing: const Icon(Icons.date_range),
                 ),

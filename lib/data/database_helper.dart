@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -39,16 +38,16 @@ class User {
 
 
 class DatabaseHelper {
-  static Database? _database;
+  static Database? db;
 
   Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await initDatabase();
-    return _database!;
+    if (db != null) return db!;
+    db = await initDatabase();
+    return db!;
   }
 
   Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), 'user_database.db');
+    String path = join(await getDatabasesPath(), 'userdb.db');
     return openDatabase(path, version: 1, onCreate: _createDatabase);
   }
 
