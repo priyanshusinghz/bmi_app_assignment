@@ -24,12 +24,12 @@ class BarGraphWidget extends StatelessWidget {
       )
     ];
 
-    return Container(
-      height: 200, // Add a fixed height to prevent bottom overflow
+    return SizedBox(
+      height: 200, 
       child: charts.BarChart(
         seriesList,
         animate: true,
-        domainAxis: charts.OrdinalAxisSpec(
+        domainAxis: const charts.OrdinalAxisSpec(
           renderSpec: charts.SmallTickRendererSpec(
             labelRotation: 60,
           ),

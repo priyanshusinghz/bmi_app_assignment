@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 40), () {
+    Future.delayed(Duration(seconds: 5), () {
       Navigator.pushNamed(context, '/input');
     });
   }

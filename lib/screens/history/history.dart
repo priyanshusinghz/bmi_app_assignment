@@ -1,7 +1,6 @@
-// history.dart
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:zignuts_assignment/data/database_helper.dart';
 import 'package:zignuts_assignment/screens/home/chart.dart';
 
 class History extends StatefulWidget {
@@ -10,12 +9,24 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  List<Map<String, String>> historyData = [
-    {'weight': '150', 'date': '2024-01-01'},
-    {'weight': '155', 'date': '2024-01-05'},
-    {'weight': '160', 'date': '2024-01-10'},
-    // Add more data as needed
-  ];
+  List<Map<String, String>> historyData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHistoryData();
+  }
+
+  Future<void> _fetchHistoryData() async {
+  List<Map<String, dynamic>> data = await DatabaseHelper().getHistoryData();
+  setState(() {
+    historyData = List<Map<String, String>>.from(data.map((entry) => {
+          'weight': entry['weight'].toString(),
+          'date': entry['date'].toString(),
+        }));
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +36,6 @@ class _HistoryState extends State<History> {
       ),
       body: Column(
         children: [
-          // Your existing ListView.builder
           Expanded(
             child: ListView.builder(
               itemCount: historyData.length,
@@ -40,17 +50,19 @@ class _HistoryState extends State<History> {
               },
             ),
           ),
-          // BarGraphWidget added below the ListView.builder
           BarGraphWidget(
             historyData: historyData,
           ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                _addEntry();
+              },
+              child: const Text('Add'),
+            ),
+          ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _addEntry();
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }
@@ -94,14 +106,13 @@ class _HistoryState extends State<History> {
             ),
             TextButton(
               onPressed: () {
-                // Implement saving the edited data
-                // Update the historyData list and close the dialog
                 Navigator.pop(context);
                 setState(() {
                   historyData[index]['weight'] = updatedWeight!;
                   historyData[index]['date'] =
                       DateFormat('yyyy-MM-dd').format(updatedDate);
                 });
+                _saveEditedEntry(index);
               },
               child: const Text('Save'),
             ),
@@ -150,8 +161,6 @@ class _HistoryState extends State<History> {
             ),
             TextButton(
               onPressed: () {
-                // Implement saving the new entry data
-                // Add a new entry to the historyData list and close the dialog
                 Navigator.pop(context);
                 setState(() {
                   historyData.add({
@@ -159,6 +168,7 @@ class _HistoryState extends State<History> {
                     'date': DateFormat('yyyy-MM-dd').format(newDate),
                   });
                 });
+                _saveNewEntry();
               },
               child: const Text('Add'),
             ),
@@ -181,5 +191,17 @@ class _HistoryState extends State<History> {
         initialDate = pickedDate;
       });
     }
+  }
+
+  void _saveEditedEntry(int index) {
+    // Implement saving the edited data to the database
+    // For example, update the corresponding entry in the 'users' table
+    // using DatabaseHelper().updateUser method
+  }
+
+  void _saveNewEntry() {
+    // Implement saving the new entry data to the database
+    // For example, insert a new entry into the 'users' table
+    // using DatabaseHelper().insertUser method
   }
 }

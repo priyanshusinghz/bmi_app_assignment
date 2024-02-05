@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zignuts_assignment/controllers/controllers.dart';
-import 'package:zignuts_assignment/data/user.dart';
+import 'package:zignuts_assignment/data/database_helper.dart';
 import 'package:zignuts_assignment/utils/constants.dart';
 import 'package:zignuts_assignment/widgets/reusable_widgets.dart';
 
@@ -29,29 +29,34 @@ class _InputPageState extends State<InputPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomTextField(
+         
             name: 'Name',
-            controller: inputControllers.nameController,
+            controller: inputControllers.nameController, keyboardType: TextInputType.name,
           ),
           CustomTextField(
             name: 'Gender',
             controller: inputControllers.genderController,
+            keyboardType: TextInputType.text,
           ),
           CustomTextField(
             name: 'Height',
             controller: inputControllers.heightController,
+            keyboardType: TextInputType.number,
           ),
           CustomTextField(
             name: 'Weight',
             controller: inputControllers.weightController,
+            keyboardType: TextInputType.number,
+
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               String name = inputControllers.nameController.text;
               String gender = inputControllers.genderController.text;
-              double height =
-                  double.parse(inputControllers.heightController.text);
-              double weight =
-                  double.parse(inputControllers.weightController.text);
+              int height =
+                  int.parse(inputControllers.heightController.text);
+              int weight =
+                  int.parse(inputControllers.weightController.text);
 
               User user = User(
                 name: name,
@@ -60,6 +65,8 @@ class _InputPageState extends State<InputPage> {
                 weight: weight,
                 date: DateTime.now(),
               );
+
+              await DatabaseHelper().insertUser(user);
 
               Navigator.pushNamed(context, '/home', arguments: user);
             },
