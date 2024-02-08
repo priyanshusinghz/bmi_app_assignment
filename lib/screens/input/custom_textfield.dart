@@ -31,6 +31,15 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
           ),
         ),
+        onSubmitted: (value) {
+          if (value.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please fill in all details.'),
+              ),
+            );
+          }
+        },
       ),
     );
   }

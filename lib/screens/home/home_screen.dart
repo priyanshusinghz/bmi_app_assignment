@@ -7,8 +7,8 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   double calculateBMI(User user) {
-    if (user.height > 0 && user.weight > 0) {
-      return user.weight / ((user.height / 100) * (user.height / 100));
+    if (user.height! > 0 && user.weight > 0) {
+      return user.weight / ((user.height! / 100) * (user.height! / 100));
     } else {
       return 0.0;
     }

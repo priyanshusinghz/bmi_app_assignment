@@ -5,7 +5,6 @@ import 'package:zignuts_assignment/screens/input/input_page.dart';
 import 'package:zignuts_assignment/screens/splash_screen.dart';
 
 void main() async{
-  
   runApp(const MyApp());
 }
 
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/input': (context) => const InputPage(),
+        '/input': (context) =>  InputPage(),
         '/history': (context) => const History(),
         '/home': (context) => const HomeScreen(),
       },

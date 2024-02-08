@@ -3,18 +3,18 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class User {
-  final int? id; 
-  final String name;
-  final String gender;
-  final int height;
+  final int? id;
+  final String? name;
+  final String? gender;
+  final int? height;
   late final int weight;
   late final DateTime date;
 
   User({
-    this.id, 
-    required this.name,
-    required this.gender,
-    required this.height,
+    this.id,
+    this.name,
+    this.gender,
+    this.height,
     required this.weight,
     required this.date,
   });
@@ -37,6 +37,7 @@ class User {
 }
 
 
+
 class DatabaseHelper {
   static Database? db;
 
@@ -52,17 +53,17 @@ class DatabaseHelper {
   }
 
   void _createDatabase(Database db, int version) async {
-    await db.execute('''
+  await db.execute('''
     CREATE TABLE users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
       gender TEXT,
       height INTEGER,
       weight INTEGER,
-      date TEXT
+      date TEXT UNIQUE ON CONFLICT REPLACE
     )
   ''');
-  }
+}
 
   Future<void> insertUser(User user) async {
     final Database db = await database;
