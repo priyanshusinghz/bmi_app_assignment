@@ -190,14 +190,24 @@ void _addEntry() {
 
 
   void _saveNewEntry(String newWeight, DateTime newDate) async {
+  List<User> existingUsers = await DatabaseHelper().getUsers();
+
+  bool entryExists = existingUsers.any((user) => user.date.isAtSameMomentAs(newDate));
+
+  if (entryExists) {
+    
+    User existingUser = existingUsers.firstWhere((user) => user.date.isAtSameMomentAs(newDate));
+    existingUser.weight = int.parse(newWeight);
+    await DatabaseHelper().insertUser(existingUser);
+  } else {
+   
     await DatabaseHelper().insertUser(User(
-      name: 'Dummy',
-      gender: 'Male',
-      height: 170,
       weight: int.parse(newWeight),
       date: newDate,
     ));
   }
+}
+
 
   void _saveEditedEntry(int index) async {
     List<User> users = await DatabaseHelper().getUsers();
